@@ -30,6 +30,15 @@ public class GenerationalGeneticAlgorithm<S extends Solution<?>> extends Abstrac
   public GenerationalGeneticAlgorithm(Problem<S> problem, int maxEvaluations, int populationSize,
                                       CrossoverOperator<S> crossoverOperator, MutationOperator<S> mutationOperator,
                                       SelectionOperator<List<S>, S> selectionOperator, SolutionListEvaluator<S> evaluator) {
+    this(problem, maxEvaluations, populationSize, crossoverOperator, mutationOperator, selectionOperator, evaluator, new ObjectiveComparator<>(0));
+  }
+
+  /**
+   * Constructor
+   */
+  public GenerationalGeneticAlgorithm(Problem<S> problem, int maxEvaluations, int populationSize,
+                                      CrossoverOperator<S> crossoverOperator, MutationOperator<S> mutationOperator,
+                                      SelectionOperator<List<S>, S> selectionOperator, SolutionListEvaluator<S> evaluator, Comparator<S> comparator) {
     super(problem);
     this.maxEvaluations = maxEvaluations;
     this.setMaxPopulationSize(populationSize);
@@ -40,7 +49,7 @@ public class GenerationalGeneticAlgorithm<S extends Solution<?>> extends Abstrac
 
     this.evaluator = evaluator;
 
-    comparator = new ObjectiveComparator<S>(0);
+    this.comparator = comparator;
   }
 
   @Override protected boolean isStoppingConditionReached() {

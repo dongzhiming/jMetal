@@ -28,6 +28,15 @@ public class SteadyStateGeneticAlgorithm<S extends Solution<?>> extends Abstract
   public SteadyStateGeneticAlgorithm(Problem<S> problem, int maxEvaluations, int populationSize,
                                      CrossoverOperator<S> crossoverOperator, MutationOperator<S> mutationOperator,
                                      SelectionOperator<List<S>, S> selectionOperator) {
+    this(problem, maxEvaluations, populationSize, crossoverOperator, mutationOperator, selectionOperator, new ObjectiveComparator<>(0));
+  }
+
+  /**
+   * Constructor
+   */
+  public SteadyStateGeneticAlgorithm(Problem<S> problem, int maxEvaluations, int populationSize,
+                                     CrossoverOperator<S> crossoverOperator, MutationOperator<S> mutationOperator,
+                                     SelectionOperator<List<S>, S> selectionOperator, Comparator<S> comparator) {
     super(problem);
     setMaxPopulationSize(populationSize);
     this.maxEvaluations = maxEvaluations;
@@ -36,7 +45,7 @@ public class SteadyStateGeneticAlgorithm<S extends Solution<?>> extends Abstract
     this.mutationOperator = mutationOperator;
     this.selectionOperator = selectionOperator;
 
-    comparator = new ObjectiveComparator<S>(0);
+    this.comparator = comparator;
   }
 
   @Override protected boolean isStoppingConditionReached() {
