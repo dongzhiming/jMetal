@@ -4,7 +4,7 @@ import org.uma.jmetal.qualityindicator.impl.Hypervolume;
 import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.JMetalException;
 import org.uma.jmetal.util.comparator.HypervolumeContributionComparator;
-import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.impl.ArrayFront;
 import org.uma.jmetal.util.front.util.FrontNormalizer;
 import org.uma.jmetal.util.front.util.FrontUtils;
 import org.uma.jmetal.util.solutionattribute.impl.HypervolumeContributionAttribute;
@@ -24,6 +24,14 @@ public class WFGHypervolume<S extends Solution<?>> extends Hypervolume<S> {
 
   /** Default constructor */
   public WFGHypervolume() {}
+
+  /**
+   * Constructor with reference point
+   * @param referencePoint
+   */
+  public WFGHypervolume(double[] referencePoint) {
+    super(referencePoint) ;
+  }
 
   /**
    * Constructor
@@ -63,7 +71,7 @@ public class WFGHypervolume<S extends Solution<?>> extends Hypervolume<S> {
     return hypervolume(new ArrayFront(paretoFrontApproximation), referenceParetoFront);
   }
 
-  static class ComparadorGreater implements Comparator {
+  static class ComparatorGreater implements Comparator {
 
     @Override
     public int compare(Object o1, Object o2) {
@@ -502,7 +510,7 @@ public class WFGHypervolume<S extends Solution<?>> extends Hypervolume<S> {
         ps.points,
         0,
         ps.nPoints,
-        new ComparadorGreater()); // ASI FUNCIONO EXCELENTE NO MOVER!!! Arrays.sort(ps.points, 0,
+        new ComparatorGreater()); // ASI FUNCIONO EXCELENTE NO MOVER!!! Arrays.sort(ps.points, 0,
                                   // ps.nPoints , new ComparadorGreater());
 
     // n = 2 implies that safe = 0

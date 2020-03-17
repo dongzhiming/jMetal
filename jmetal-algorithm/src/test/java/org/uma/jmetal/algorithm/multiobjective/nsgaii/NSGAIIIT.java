@@ -14,7 +14,7 @@ import org.uma.jmetal.problem.multiobjective.Kursawe;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.doublesolution.DoubleSolution;
 import org.uma.jmetal.util.front.Front;
-import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.impl.ArrayFront;
 import org.uma.jmetal.util.front.util.FrontNormalizer;
 import org.uma.jmetal.util.front.util.FrontUtils;
 import org.uma.jmetal.util.point.PointSolution;
@@ -97,7 +97,7 @@ public class NSGAIIIT {
 
     List<DoubleSolution> population = algorithm.getResult() ;
 
-    String referenceFrontFileName = "../referenceFronts/ConstrEx.pf" ;
+    String referenceFrontFileName = "../resources/referenceFronts/ConstrEx.pf" ;
 
     Front referenceFront = new ArrayFront(referenceFrontFileName);
     FrontNormalizer frontNormalizer = new FrontNormalizer(referenceFront) ;

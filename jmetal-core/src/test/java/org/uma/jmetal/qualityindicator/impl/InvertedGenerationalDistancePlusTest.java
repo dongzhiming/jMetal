@@ -5,8 +5,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.uma.jmetal.solution.doublesolution.DoubleSolution;
 import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.checking.exception.NullParameterException;
 import org.uma.jmetal.util.front.Front;
-import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.impl.ArrayFront;
 import org.uma.jmetal.util.front.util.FrontUtils;
 import org.uma.jmetal.util.point.Point;
 import org.uma.jmetal.util.point.PointSolution;
@@ -14,7 +15,6 @@ import org.uma.jmetal.util.point.impl.ArrayPoint;
 
 import java.io.FileNotFoundException;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -29,8 +29,7 @@ public class InvertedGenerationalDistancePlusTest {
 
   @Test
   public void shouldConstructorRaiseAnExceptionIfTheParetoFrontIsNull() {
-    exception.expect(JMetalException.class);
-    exception.expectMessage(containsString("The reference pareto front is null"));
+    exception.expect(NullParameterException.class);
 
     Front front = null ;
 
@@ -45,7 +44,6 @@ public class InvertedGenerationalDistancePlusTest {
   @Test
   public void shouldEvaluateRaiseAnExceptionIfTheFrontApproximationIsNull() {
     exception.expect(JMetalException.class);
-    exception.expectMessage(containsString("The pareto front approximation is null"));
 
     Front front = new ArrayFront(0, 0) ;
 

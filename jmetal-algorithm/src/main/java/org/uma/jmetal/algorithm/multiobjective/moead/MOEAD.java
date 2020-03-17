@@ -1,94 +1,130 @@
 package org.uma.jmetal.algorithm.multiobjective.moead;
 
-import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
+import org.uma.jmetal.algorithm.ComponentBasedEvolutionaryAlgorithm;
+import org.uma.jmetal.component.evaluation.Evaluation;
+import org.uma.jmetal.component.evaluation.impl.SequentialEvaluation;
+import org.uma.jmetal.component.initialsolutioncreation.InitialSolutionsCreation;
+import org.uma.jmetal.component.initialsolutioncreation.impl.RandomSolutionsCreation;
+import org.uma.jmetal.component.replacement.impl.MOEADReplacement;
+import org.uma.jmetal.component.selection.impl.PopulationAndNeighborhoodMatingPoolSelection;
+import org.uma.jmetal.component.selection.impl.RandomMatingPoolSelection;
+import org.uma.jmetal.component.termination.Termination;
+import org.uma.jmetal.component.variation.impl.CrossoverAndMutationVariation;
 import org.uma.jmetal.operator.crossover.CrossoverOperator;
-import org.uma.jmetal.operator.crossover.impl.DifferentialEvolutionCrossover;
 import org.uma.jmetal.operator.mutation.MutationOperator;
 import org.uma.jmetal.problem.Problem;
-import org.uma.jmetal.solution.doublesolution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.aggregativefunction.AggregativeFunction;
+import org.uma.jmetal.util.neighborhood.impl.WeightVectorNeighborhood;
+import org.uma.jmetal.util.observable.impl.DefaultObservable;
+import org.uma.jmetal.util.sequencegenerator.SequenceGenerator;
+import org.uma.jmetal.util.sequencegenerator.impl.IntegerPermutationGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 /**
- * Class implementing the MOEA/D-DE algorithm described in :
- * Hui Li; Qingfu Zhang, "Multiobjective Optimization Problems With Complicated Pareto Sets,
- * MOEA/D and NSGA-II," Evolutionary Computation, IEEE Transactions on , vol.13, no.2, pp.284,302,
- * April 2009. doi: 10.1109/TEVC.2008.925798
+ * This class is intended to provide an implementation of the MOEA/D algorithm.
  *
- * @author Antonio J. Nebro
- * @version 1.0
+ * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
-@SuppressWarnings("serial")
-public class MOEAD extends AbstractMOEAD<DoubleSolution> {
-  protected DifferentialEvolutionCrossover differentialEvolutionCrossover ;
+public class MOEAD<S extends Solution<?>> extends ComponentBasedEvolutionaryAlgorithm<S> {
 
-  public MOEAD(Problem<DoubleSolution> problem,
+  /** Constructor */
+  public MOEAD(
+      Problem<S> problem,
+      Evaluation<S> evaluation,
+      InitialSolutionsCreation<S> initialPopulationCreation,
+      Termination termination,
+      RandomMatingPoolSelection<S> selection,
+      CrossoverAndMutationVariation<S> variation,
+      MOEADReplacement<S> replacement) {
+    super(
+        "MOEAD",
+        problem,
+        evaluation,
+        initialPopulationCreation,
+        termination,
+        selection,
+        variation,
+        replacement);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param problem
+   * @param populationSize
+   * @param mutationOperator
+   * @param crossoverOperator
+   * @param aggregativeFunction
+   * @param neighborhoodSelectionProbability
+   * @param maximumNumberOfReplacedSolutions
+   * @param neighborhoodSize
+   * @param weightVectorDirectory
+   * @param termination
+   */
+  public MOEAD(
+      Problem<S> problem,
       int populationSize,
-      int resultPopulationSize,
-      int maxEvaluations,
-      MutationOperator<DoubleSolution> mutation,
-      CrossoverOperator<DoubleSolution> crossover,
-      FunctionType functionType,
-      String dataDirectory,
+      MutationOperator<S> mutationOperator,
+      CrossoverOperator<S> crossoverOperator,
+      AggregativeFunction aggregativeFunction,
       double neighborhoodSelectionProbability,
       int maximumNumberOfReplacedSolutions,
-      int neighborSize) {
-    super(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation, functionType,
-        dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions,
-        neighborSize);
+      int neighborhoodSize,
+      String weightVectorDirectory,
+      Termination termination) {
+    this.name = "MOEAD";
+    this.problem = problem;
+    this.observable = new DefaultObservable<>(name);
+    this.attributes = new HashMap<>();
 
-    differentialEvolutionCrossover = (DifferentialEvolutionCrossover)crossoverOperator ;
-  }
+    SequenceGenerator<Integer> subProblemIdGenerator =
+        new IntegerPermutationGenerator(populationSize);
 
-  @Override public void run() {
-    initializePopulation() ;
-    initializeUniformWeight();
-    initializeNeighborhood();
-    idealPoint.update(population); ;
+    this.createInitialPopulation = new RandomSolutionsCreation<>(problem, populationSize);
 
-    evaluations = populationSize ;
-    do {
-      int[] permutation = new int[populationSize];
-      MOEADUtils.randomPermutation(permutation, populationSize);
+    int offspringPopulationSize = 1;
+    this.variation =
+        new CrossoverAndMutationVariation<>(
+            offspringPopulationSize, crossoverOperator, mutationOperator);
 
-      for (int i = 0; i < populationSize; i++) {
-        int subProblemId = permutation[i];
+    WeightVectorNeighborhood<S> neighborhood = null;
 
-        NeighborType neighborType = chooseNeighborType() ;
-        List<DoubleSolution> parents = parentSelection(subProblemId, neighborType) ;
-
-        differentialEvolutionCrossover.setCurrentSolution(population.get(subProblemId));
-        List<DoubleSolution> children = differentialEvolutionCrossover.execute(parents);
-
-        DoubleSolution child = children.get(0) ;
-        mutationOperator.execute(child);
-        problem.evaluate(child);
-
-        evaluations++;
-
-        idealPoint.update(child.getObjectives());
-        updateNeighborhood(child, subProblemId, neighborType);
+    if (problem.getNumberOfObjectives() == 2) {
+      neighborhood = new WeightVectorNeighborhood<>(populationSize, neighborhoodSize);
+    } else {
+      try {
+        neighborhood =
+            new WeightVectorNeighborhood<>(
+                populationSize,
+                problem.getNumberOfObjectives(),
+                neighborhoodSize,
+                weightVectorDirectory);
+      } catch (FileNotFoundException exception) {
+        exception.printStackTrace();
       }
-    } while (evaluations < maxEvaluations);
-
-  }
-
-  protected void initializePopulation() {
-    population = new ArrayList<>(populationSize);
-    for (int i = 0; i < populationSize; i++) {
-      DoubleSolution newSolution = (DoubleSolution)problem.createSolution();
-
-      problem.evaluate(newSolution);
-      population.add(newSolution);
     }
-  }
 
-  @Override public String getName() {
-    return "MOEAD" ;
-  }
+    this.selection =
+        new PopulationAndNeighborhoodMatingPoolSelection<S>(
+            variation.getMatingPoolSize(),
+            subProblemIdGenerator,
+            neighborhood,
+            neighborhoodSelectionProbability,
+            true);
 
-  @Override public String getDescription() {
-    return "Multi-Objective Evolutionary Algorithm based on Decomposition" ;
+    this.replacement =
+        new MOEADReplacement<S>(
+            (PopulationAndNeighborhoodMatingPoolSelection) selection,
+            neighborhood,
+            aggregativeFunction,
+            subProblemIdGenerator,
+            maximumNumberOfReplacedSolutions);
+
+    this.termination = termination;
+
+    this.evaluation = new SequentialEvaluation<>();
   }
 }

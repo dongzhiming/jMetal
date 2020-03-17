@@ -18,6 +18,7 @@ import org.uma.jmetal.component.densityestimator.DensityEstimator;
 import org.uma.jmetal.component.densityestimator.impl.CrowdingDistanceDensityEstimator;
 import org.uma.jmetal.component.ranking.Ranking;
 import org.uma.jmetal.component.ranking.impl.FastNonDominatedSortRanking;
+import org.uma.jmetal.component.ranking.impl.MergeNonDominatedSortRanking;
 import org.uma.jmetal.operator.crossover.CrossoverOperator;
 import org.uma.jmetal.operator.crossover.impl.SBXCrossover;
 import org.uma.jmetal.operator.mutation.MutationOperator;
@@ -39,13 +40,12 @@ import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
 public class NSGAII {
   public static void main(String[] args) {
     DoubleProblem problem = new ZDT1();
-    String referenceParetoFront = "/pareto_fronts/ZDT1.pf";
 
     //JMetalRandom.getInstance().setSeed(1);
 
     int populationSize = 100;
     int offspringPopulationSize = 100;
-    int maxNumberOfEvaluations = 25000;
+    int maxNumberOfEvaluations = 50000;
 
     RepairDoubleSolution crossoverSolutionRepair = new RepairDoubleSolutionWithRandomValue();
     double crossoverProbability = 0.9;
@@ -70,8 +70,7 @@ public class NSGAII {
 
     Termination termination = new TerminationByEvaluations(maxNumberOfEvaluations);
 
-    Ranking<DoubleSolution> ranking = new FastNonDominatedSortRanking<>(new DominanceComparator<>());
-    //ranking = new ExperimentalFastNonDominanceRanking<>() ;
+    Ranking<DoubleSolution> ranking = new MergeNonDominatedSortRanking<>();
 
     DensityEstimator<DoubleSolution> densityEstimator = new CrowdingDistanceDensityEstimator<>();
 
@@ -93,7 +92,8 @@ public class NSGAII {
             termination,
             selection,
             variation,
-            replacement);
+            replacement
+        );
 
     //EvaluationObserver evaluationObserver = new EvaluationObserver(1000);
     //RunTimeChartObserver<DoubleSolution> runTimeChartObserver =
@@ -113,8 +113,8 @@ public class NSGAII {
         algorithm.getResult(), algorithm.getTotalComputingTime());
     */
     new SolutionListOutput(algorithm.getResult())
-        .setVarFileOutputContext(new DefaultFileOutputContext("VAR.tsv"))
-        .setFunFileOutputContext(new DefaultFileOutputContext("FUN.tsv"))
+        .setVarFileOutputContext(new DefaultFileOutputContext("VAR.csv", ","))
+        .setFunFileOutputContext(new DefaultFileOutputContext("FUN.csv", ","))
         .print();
 
     System.exit(0);

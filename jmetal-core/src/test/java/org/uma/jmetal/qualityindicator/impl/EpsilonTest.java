@@ -5,8 +5,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.uma.jmetal.qualityindicator.QualityIndicator;
 import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.checking.exception.NullParameterException;
 import org.uma.jmetal.util.front.Front;
-import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.impl.ArrayFront;
 import org.uma.jmetal.util.front.util.FrontUtils;
 import org.uma.jmetal.util.point.Point;
 import org.uma.jmetal.util.point.PointSolution;
@@ -14,7 +15,6 @@ import org.uma.jmetal.util.point.impl.ArrayPoint;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -29,8 +29,7 @@ public class EpsilonTest {
 
   @Test
   public void shouldExecuteRaiseAnExceptionIfTheFrontApproximationIsNull() {
-    exception.expect(JMetalException.class);
-    exception.expectMessage(containsString("The reference pareto front is null"));
+    exception.expect(NullParameterException.class);
 
     Front referenceFront = null ;
     new Epsilon<PointSolution>(referenceFront) ;
@@ -39,7 +38,6 @@ public class EpsilonTest {
   @Test
   public void shouldExecuteRaiseAnExceptionIfTheFrontApproximationListIsNull() {
     exception.expect(JMetalException.class);
-    exception.expectMessage(containsString("The pareto front approximation list is null"));
 
     Front referenceFront = new ArrayFront() ;
 

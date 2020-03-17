@@ -5,7 +5,7 @@ import org.uma.jmetal.problem.doubleproblem.DoubleProblem;
 import org.uma.jmetal.problem.doubleproblem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.doublesolution.DoubleSolution;
 import org.uma.jmetal.util.front.Front;
-import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.impl.ArrayFront;
 import org.uma.jmetal.util.point.impl.ArrayPoint;
 
 import java.io.FileNotFoundException;
@@ -124,7 +124,7 @@ public class WFGHypervolumeTest {
    */
   @Test
   public void shouldEvaluateWorkProperlyCase4() throws FileNotFoundException {
-    Front storeFront = new ArrayFront("../referenceFronts/ZDT1.pf") ;
+    Front storeFront = new ArrayFront("../resources/referenceFronts/ZDT1.pf") ;
 
     DoubleProblem problem = new MockDoubleProblem(2) ;
 
