@@ -17,7 +17,7 @@ public class Gnuplot {
             convert[i][1] = data[i];
         }
 
-        plot(convert, name);
+        plot(convert, name.replace("_", "\\_"));
     }
 
     public static void plot(double[][] data, String name) {
@@ -31,7 +31,7 @@ public class Gnuplot {
         }
 
         p.setKey(OFF);
-        p.setTitle(name);
+        p.setTitle(name.replace("_", "\\_"));
 
         p.addPlot(data);
         p.plot();
@@ -44,7 +44,7 @@ public class Gnuplot {
         }
 
         p.setKey(OFF);
-        p.setTitle(name);
+        p.setTitle(name.replace("_", "\\_"));
 
         for (int i = 0; i < data[0].length; i++) {
             double[][] x = new double[data.length][2];
