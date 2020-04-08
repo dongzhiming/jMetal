@@ -2,8 +2,6 @@ package org.uma.jmetal.problem.multiobjective.vnt;
 
 import org.uma.jmetal.problem.doubleproblem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.doublesolution.DoubleSolution;
-import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
-import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +12,6 @@ import java.util.List;
  * @Description:
  */
 public class VNT4 extends AbstractDoubleProblem {
-    public OverallConstraintViolation<DoubleSolution> overallConstraintViolationDegree;
-    public NumberOfViolatedConstraints<DoubleSolution> numberOfViolatedConstraints;
-
     public VNT4() {
         setNumberOfVariables(2);
         setNumberOfObjectives(3);
@@ -32,9 +27,6 @@ public class VNT4 extends AbstractDoubleProblem {
         }
 
         setVariableBounds(lowerLimit, upperLimit);
-
-        overallConstraintViolationDegree = new OverallConstraintViolation<>();
-        numberOfViolatedConstraints = new NumberOfViolatedConstraints<>();
     }
 
     @Override
