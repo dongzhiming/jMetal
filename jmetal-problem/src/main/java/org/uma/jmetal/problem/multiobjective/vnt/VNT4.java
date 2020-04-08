@@ -57,16 +57,8 @@ public class VNT4 extends AbstractDoubleProblem {
         constraint[1] = 1 + x.get(0);
         constraint[2] = -x.get(0) + 2 + x.get(1);
 
-        double overallConstraintViolation = 0.0;
-        int violatedConstraints = 0;
         for (int i = 0; i < getNumberOfConstraints(); i++) {
-            if (constraint[i] < 0.0) {
-                overallConstraintViolation += constraint[i];
-                violatedConstraints++;
-            }
+            solution.setConstraint(i, constraint[i]);
         }
-
-        overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);
-        numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);
     }
 }
