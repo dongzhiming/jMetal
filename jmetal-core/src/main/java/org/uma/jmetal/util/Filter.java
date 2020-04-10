@@ -96,14 +96,14 @@ public class Filter {
         return rps;
     }
 
-    public static List<Solution<?>> filter(List<Solution<?>> referencePoints, int expected) {
+    public static <S extends Solution<?>> List<S> filter(List<S> referencePoints, int expected) {
         if (referencePoints.size() < expected) {
             JMetalLogger.logger.warning("referencePoints.size() < expected.");
             return referencePoints;
         }
 
         int dim = referencePoints.get(0).getNumberOfObjectives();
-        List<Solution<?>> rps = new ArrayList<>(expected);
+        List<S> rps = new ArrayList<>(expected);
 
         int total = referencePoints.size();
         double[] dis2set = new double[total];
@@ -135,7 +135,7 @@ public class Filter {
                 }
             }
 
-            rps.add(referencePoints.get(index).copy());
+            rps.add((S) referencePoints.get(index).copy());
 
             selected[index] = true;
 
@@ -162,7 +162,7 @@ public class Filter {
                 }
             }
 
-            rps.add(referencePoints.get(index).copy());
+            rps.add((S) referencePoints.get(index).copy());
 
             selected[index] = true;
 
