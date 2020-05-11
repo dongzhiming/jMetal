@@ -3,9 +3,7 @@ package org.uma.jmetal.util;
 import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.distance.Distance;
 import org.uma.jmetal.util.distance.impl.EuclideanDistanceBetweenSolutionsInObjectiveSpace;
-import org.uma.jmetal.util.point.impl.ArrayPoint;
-import org.uma.jmetal.util.point.util.distance.EuclideanDistance;
-import org.uma.jmetal.util.point.util.distance.PointDistance;
+import org.uma.jmetal.util.distance.impl.EuclideanDistanceBetweenVectors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +32,12 @@ public class Filter {
         }
 
         // distance matrix
-        PointDistance distance = new EuclideanDistance();
+        Distance distance = new EuclideanDistanceBetweenVectors();
         double[][] disV = new double[total][total];
         for (int i = 0; i < total; i++) {
             disV[i][i] = 0.0;
             for (int j = i + 1; j < total; j++) {
-                disV[i][j] = distance.compute(new ArrayPoint(referencePoints[i]), new ArrayPoint(referencePoints[j]));
+                disV[i][j] = distance.compute(referencePoints[i], referencePoints[j]);
                 disV[j][i] = disV[i][j];
             }
         }
@@ -119,7 +117,7 @@ public class Filter {
         for (int i = 0; i < total; i++) {
             disV[i][i] = 0.0;
             for (int j = i + 1; j < total; j++) {
-                disV[i][j] = distance.getDistance(referencePoints.get(i), referencePoints.get(j));
+                disV[i][j] = distance.compute(referencePoints.get(i), referencePoints.get(j));
                 disV[j][i] = disV[i][j];
             }
         }
