@@ -1,6 +1,6 @@
 package org.uma.jmetal.util;
 
-import org.uma.jmetal.util.checking.Check;
+import org.uma.jmetal.util.errorchecking.Check;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -72,6 +72,29 @@ public class NormalizeUtils {
     for (int i = 0; i < matrix.length; i++) {
       for (int j = 0; j < matrix[0].length; j++) {
         normalizedMatrix[i][j] = NormalizeUtils.normalize(matrix[i][j], minValue[j], maxValue[j]) ;
+      }
+    }
+
+    return normalizedMatrix;
+  }
+
+  /**
+   * Normalize the vectors (rows) of bi-dimensional matrix
+   *
+   * @param matrix
+   * @return A matrix with normalized values for each of its rows
+   */
+  public static double[][] normalize(double[][] matrix, double[] minRangeValue, double[] maxRangeValue) {
+    Check.isNotNull(matrix);
+
+    double[][] normalizedMatrix = new double[matrix.length][matrix[0].length];
+
+    double[] minValue = getMinValuesOfTheColumnsOfAMatrix(matrix) ;
+    double[] maxValue = getMaxValuesOfTheColumnsOfAMatrix(matrix) ;
+
+    for (int i = 0; i < matrix.length; i++) {
+      for (int j = 0; j < matrix[0].length; j++) {
+        normalizedMatrix[i][j] = normalize(matrix[i][j], minRangeValue[i], maxRangeValue[i], minValue[j], maxValue[j]) ;
       }
     }
 

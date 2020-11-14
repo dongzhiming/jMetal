@@ -1,7 +1,7 @@
 package org.uma.jmetal.util.front.util;
 
 import org.uma.jmetal.solution.Solution;
-import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.errorchecking.JMetalException;
 import org.uma.jmetal.util.front.Front;
 import org.uma.jmetal.util.front.impl.ArrayFront;
 
@@ -12,6 +12,7 @@ import java.util.List;
  *
  * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
+@Deprecated
 public class FrontNormalizer {
   private double[] maximumValues;
   private double[] minimumValues;

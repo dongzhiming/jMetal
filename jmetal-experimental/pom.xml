@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>jMetal algorithms (single- and multi-objective)</description>
+    <description>Features in development</description>
     <url>http://jmetal.sourceforge.net</url>
 
     <build>
@@ -38,7 +38,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.uma.jmetal.auto.irace.AutoNSGAIIirace</mainClass>
+                            <mainClass>org.uma.jmetal.experimental.auto.irace.AutoNSGAIIirace</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

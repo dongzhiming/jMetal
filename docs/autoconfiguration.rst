@@ -3,7 +3,7 @@
 Auto-configuration of evolutionary algorithms: NSGA-II
 ======================================================
 
-Before reading this section, readers are referred to the paper "Automatic configuration of NSGA-II with jMetal and irace", presented in GECCO 2019 (DOI: https://doi.org/10.1145/3319619.3326832), and to the :ref:`installation`. This tutorial is intended as a guide to replicate the experimentation conducted in that paper. Please, take into account that this is a work in progress. Comments, suggestions, and bugs reporting are welcome. The source code is located in the ``org.uma.jmetal.auto`` package of the ``jmetal-experimental`` submodule.
+Before reading this section, readers are referred to the paper "Automatic configuration of NSGA-II with jMetal and irace", presented in GECCO 2019 (DOI: https://doi.org/10.1145/3319619.3326832). This tutorial is intended as a guide to replicate the experimentation conducted in that paper. Please, take into account that this is a work in progress. Comments, suggestions, and bugs reporting are welcome. The source code is located in the ``org.uma.jmetal.auto`` package of the ``jmetal-experimental`` submodule.
 
 Motivation
 ----------
@@ -88,6 +88,7 @@ The *autoNSGAII* has a *variation* component than can take a single value named 
 Finally, the *selection* operator be *random* or *tournament*; this last one can take a value between 2 (i.e., binary tournament) and 10.
 
 As we intend to use irace as auto-tuning package, it requires a text file containing information about the parameters, the values they can take, an their relationships. We have created then a file called ``parameters-NSGAII.txt`` containing the required data::
+
 
   algorithmResult                          "--algorithmResult "                     c       (externalArchive,population)
   populationSize                           "--populationSize "                      o       (100)
@@ -180,9 +181,9 @@ To configure NSGA-II, we have developed a package ``org.uma.jmetal.auto.componen
 
 The ``AutoNSGAII`` class
 ------------------------
-An example of configuring and running NSGA-II with these ``EvolutionaryAlgorithm`` class is provided in ``org.uma.jmetal.auto.algorithm.nsgaii.NSGAII``, where that class is instantiated with the components leading to an standard NSGA-II. However, our purpose is to have the ability of automatically configure NSGA-II, so we need something more flexible.
+An example of configuring and running NSGA-II with these ``EvolutionaryAlgorithm`` class is provided in ``NSGAII``, where that class is instantiated with the components leading to an standard NSGA-II. However, our purpose is to have the ability of automatically configure NSGA-II, so we need something more flexible.
 
-The approach we have adopted is to get a sequence of pairs <parameter, value> as input, which is parsed to properly get a version of NSGA-II. This task is performed by class ``org.uma.jmetal.auto.algorithm.nsgaii.AutoNSGAII``. This way, to get an NSGA-II algorithm with standard settings the following string must be passed to class ``AutoNSGAII`` from the command line:
+The approach we have adopted is to get a sequence of pairs <parameter, value> as input, which is parsed to properly get a version of NSGA-II. This task is performed by class ``AutoNSGAII``. This way, to get an NSGA-II algorithm with standard settings the following string must be passed to class ``AutoNSGAII`` from the command line:
 
 .. code-block:: text
 
@@ -207,7 +208,7 @@ The approach we have adopted is to get a sequence of pairs <parameter, value> as
                 + "--mutationRepairStrategy bounds "
                 + "--polynomialMutationDistributionIndex 20.0 "
 
-We include a class named ``org.uma.jmetal.auto.algorithm.nsgaii.NSGAWithParameters" showing how to use this parameter string with ``AutoNSGAII``.
+We include a class named ``org.uma.jmetal.experimental.auto.algorithm.nsgaii.NSGAWithParameters" showing how to use this parameter string with ``AutoNSGAII``.
 
 Stuff required
 --------------
@@ -215,16 +216,16 @@ Stuff required
 To replicate the results presented in https://doi.org/10.1145/3319619.3326832 we need:
 
 * R
-* The jar file `jmetal-auto-6.0-SNAPSHOT-jar-with-dependencies.jar`.
-* The contents of folder ``jmetal-auto/src/main/resources/irace``.
+* The jar file `jmetal-experimental-5.11-SNAPSHOT-jar-with-dependencies.jar`.
+* The contents of folder ``jmetal-experimental/src/main/resources/irace``.
 
-To generate the `jmetal-auto-6.0-SNAPSHOT-jar-with-dependencies.jar` file, just type the following command at the root of the jMetal project:
+To generate the `jmetal-experimetal-5.11-SNAPSHOT-jar-with-dependencies.jar` file, just type the following command at the root of the jMetal project:
 
 .. code-block:: bash
 
   mvn clean package -DskipTests=tournament
 
-If everything goes fine, the file will be generated in the `jmetal-auto/target` folder.
+If everything goes fine, the file will be generated in the `jmetal-experimental/target` folder.
 
 The contents of irace folder are the following:
 
@@ -253,7 +254,7 @@ We must note that **currently we can only auto-configure NSGA-II with benchmark 
 Running everything
 ------------------
 
-Once you have all the needed resources, just create a folder in the machine where you are going to run the experiment and copy  the contents of the `irace` folder and the `jmetal-auto-6.0-SNAPSHOT-jar-with-dependencies.jar` file into it. Take into account that irace will generate thousands of configurations, so using a multi-core machine is advisable (we use a Linux virtual machine with 24 cores). We have tested the software in Linux, macOS, and Windows 10 (in the Ubuntu Bash console).
+Once you have all the needed resources, just create a folder in the machine where you are going to run the experiment and copy  the contents of the `irace` folder and the `jmetal-experimental-5.11-SNAPSHOT-jar-with-dependencies.jar` file into it. Take into account that irace will generate thousands of configurations, so using a multi-core machine is advisable (we use a Linux virtual machine with 24 cores). We have tested the software in Linux, macOS, and Windows 10 (in the Ubuntu Bash console).
 
 To run irace simply run the following command:
 
