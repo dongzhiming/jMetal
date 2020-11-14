@@ -19,11 +19,13 @@ public class IMOP3 extends IMOP1 {
     }
 
     @Override
-    public void evaluate(DoubleSolution solution) {
+    public DoubleSolution evaluate(DoubleSolution solution) {
         double y1 = y(solution, a1);
         double g = g(solution);
 
         solution.setObjective(0, g + (1.0 + Math.cos(y1 * Math.PI * 10) / 5 - y1));
         solution.setObjective(1, g + y1);
+
+        return solution;
     }
 }

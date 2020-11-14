@@ -30,7 +30,7 @@ public class VNT4 extends AbstractDoubleProblem {
     }
 
     @Override
-    public void evaluate(DoubleSolution solution) {
+    public DoubleSolution evaluate(DoubleSolution solution) {
         List<Double> x = solution.getVariables();
 
         solution.setObjective(0, (x.get(0) - 2) * (x.get(0) - 2) / 2 + (x.get(1) + 1) * (x.get(1) + 1) / 13 + 3);
@@ -38,6 +38,8 @@ public class VNT4 extends AbstractDoubleProblem {
         solution.setObjective(2, (3 * x.get(0) - 2 * x.get(1) + 4) * (3 * x.get(0) - 2 * x.get(1) + 4) / 8 + (x.get(0) - x.get(1) + 1) * (x.get(0) - x.get(1) + 1) / 27 + 15);
 
         evaluateConstraints(solution);
+
+        return solution;
     }
 
     private void evaluateConstraints(DoubleSolution solution) {

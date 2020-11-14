@@ -30,7 +30,7 @@ public class VNT3 extends AbstractDoubleProblem {
     }
 
     @Override
-    public void evaluate(DoubleSolution solution) {
+    public DoubleSolution evaluate(DoubleSolution solution) {
         List<Double> x = solution.getVariables();
 
         double tmp = x.get(0) * x.get(0) + x.get(1) * x.get(1);
@@ -38,5 +38,7 @@ public class VNT3 extends AbstractDoubleProblem {
         solution.setObjective(0, 0.5 * tmp + Math.sin(tmp));
         solution.setObjective(1, (3 * x.get(0) - 2 * x.get(1) + 4) * (3 * x.get(0) - 2 * x.get(1) + 4) / 8 + (x.get(0) - x.get(1) + 1) * (x.get(0) - x.get(1) + 1) / 27 + 15);
         solution.setObjective(2, 1 / (tmp + 1) - 1.1 * Math.exp(-tmp));
+
+        return solution;
     }
 }

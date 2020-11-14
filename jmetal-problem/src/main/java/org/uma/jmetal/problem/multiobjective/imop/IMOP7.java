@@ -19,7 +19,7 @@ public class IMOP7 extends IMOP5 {
     }
 
     @Override
-    public void evaluate(DoubleSolution solution) {
+    public DoubleSolution evaluate(DoubleSolution solution) {
         double y1 = y(solution, 0, a1);
         double y2 = y(solution, 1, a2);
         double g = g(solution);
@@ -39,5 +39,7 @@ public class IMOP7 extends IMOP5 {
         solution.setObjective(0, f0 + r);
         solution.setObjective(1, f1 + r);
         solution.setObjective(2, f2 + r);
+
+        return solution;
     }
 }
