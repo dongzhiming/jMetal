@@ -24,9 +24,9 @@ public class IMOP4 extends IMOP1 {
         double y1 = y(solution, a1);
         double g = g(solution);
 
-        solution.setObjective(0, (1.0 + g) * y1);
-        solution.setObjective(1, (1.0 + g) * (y1 + Math.sin(10 * Math.PI * y1) / 10));
-        solution.setObjective(2, (1.0 + g) * (1.0 - y1));
+        solution.objectives()[0] = (1.0 + g) * y1;
+        solution.objectives()[1] = (1.0 + g) * (y1 + Math.sin(10 * Math.PI * y1) / 10);
+        solution.objectives()[2] = (1.0 + g) * (1.0 - y1);
 
         return solution;
     }

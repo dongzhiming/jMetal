@@ -32,9 +32,9 @@ public class IMOP5 extends IMOP1 {
         double f1 = 0.4 * Math.sin(Math.PI * Math.ceil(y1 * 8) / 4) + 0.1 * y2 * Math.sin(16 * Math.PI * y1);
         double f2 = 0.5 - f0 - f1;
 
-        solution.setObjective(0, f0 + g);
-        solution.setObjective(1, f1 + g);
-        solution.setObjective(2, f2 + g);
+        solution.objectives()[0] =  f0 + g;
+        solution.objectives()[1] = f1 + g;
+        solution.objectives()[2] = f2 + g;
 
         return solution;
     }

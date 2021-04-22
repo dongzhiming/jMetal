@@ -23,8 +23,8 @@ public class IMOP3 extends IMOP1 {
         double y1 = y(solution, a1);
         double g = g(solution);
 
-        solution.setObjective(0, g + (1.0 + Math.cos(y1 * Math.PI * 10) / 5 - y1));
-        solution.setObjective(1, g + y1);
+        solution.objectives()[0] = g + (1.0 + Math.cos(y1 * Math.PI * 10) / 5 - y1);
+        solution.objectives()[1] = g + y1;
 
         return solution;
     }

@@ -26,11 +26,11 @@ public class WisdomIdealNadirPoint {
         // Step 1
         if (points.size() == 0) {
             for (int i = 0; i < idealPoint.getDimension(); i++) {
-                points.add(solution.getObjectives().clone());
+                points.add(solution.objectives().clone());
             }
 
-            idealPoint.update(solution.getObjectives());
-            nadirPoint.update(solution.getObjectives());
+            idealPoint.update(solution.objectives());
+            nadirPoint.update(solution.objectives());
 
             return true;
         }
@@ -38,9 +38,9 @@ public class WisdomIdealNadirPoint {
         // Step 2
         boolean flag = false;
         for (int i = 0; i < idealPoint.getDimension(); i++) {
-            if (solution.getObjective(i) < points.get(i)[i]) {
-                points.set(i, solution.getObjectives().clone());
-                idealPoint.setValue(i, solution.getObjective(i));
+            if (solution.objectives()[i] < points.get(i)[i]) {
+                points.set(i, solution.objectives().clone());
+                idealPoint.setValue(i, solution.objectives()[i]);
 
                 flag = true;
             }

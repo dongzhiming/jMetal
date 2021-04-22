@@ -44,8 +44,8 @@ public class IMOP1 extends AbstractDoubleProblem {
         double y1 = y(solution, a1);
         double g = g(solution);
 
-        solution.setObjective(0, g + Math.pow(Math.cos(y1 * Math.PI / 2), 8));
-        solution.setObjective(1, g + Math.pow(Math.sin(y1 * Math.PI / 2), 8));
+        solution.objectives()[0] = g + Math.pow(Math.cos(y1 * Math.PI / 2), 8);
+        solution.objectives()[1] = g + Math.pow(Math.sin(y1 * Math.PI / 2), 8);
 
         return solution;
     }
@@ -54,7 +54,7 @@ public class IMOP1 extends AbstractDoubleProblem {
         double y = 0;
 
         for (int i = 0; i < K; i++) {
-            y += solution.getVariable(i);
+            y += solution.variables().get(i);
         }
 
         return Math.pow(y / K, a);
@@ -64,7 +64,7 @@ public class IMOP1 extends AbstractDoubleProblem {
         double y = 0;
 
         for (int i = begin; i < K; i += 2) {
-            y += solution.getVariable(i);
+            y += solution.variables().get(i);
         }
 
         return Math.pow(y / Math.ceil((K - begin) / 2.0), a);
@@ -73,8 +73,8 @@ public class IMOP1 extends AbstractDoubleProblem {
     protected double g(DoubleSolution solution) {
         double g = 0;
 
-        for (int i = K; i < solution.getNumberOfVariables(); i++) {
-            g += Math.pow(solution.getVariable(i) - 0.5, 2);
+        for (int i = K; i < solution.variables().size(); i++) {
+            g += Math.pow(solution.variables().get(i) - 0.5, 2);
         }
 
         return g;

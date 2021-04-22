@@ -25,9 +25,9 @@ public class IMOP6 extends IMOP5 {
         double g = g(solution);
         double r = Math.max(0, Math.min(Math.pow(Math.sin(3 * Math.PI * y1), 2), Math.pow(Math.sin(3 * Math.PI * y2), 2)) - 0.5);
 
-        solution.setObjective(0, (1 + g) * y1 + Math.ceil(r));
-        solution.setObjective(1, (1 + g) * y2 + Math.ceil(r));
-        solution.setObjective(2, (0.5 + g) * (2 - y1 - y2) + Math.ceil(r));
+        solution.objectives()[0] = (1 + g) * y1 + Math.ceil(r);
+        solution.objectives()[1] = (1 + g) * y2 + Math.ceil(r);
+        solution.objectives()[2] = (0.5 + g) * (2 - y1 - y2) + Math.ceil(r);
 
         return solution;
     }

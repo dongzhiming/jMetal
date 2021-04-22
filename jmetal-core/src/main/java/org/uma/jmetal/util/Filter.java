@@ -100,7 +100,7 @@ public class Filter {
             return referencePoints;
         }
 
-        int dim = referencePoints.get(0).getNumberOfObjectives();
+        int dim = referencePoints.get(0).objectives().length;
         List<S> rps = new ArrayList<>(expected);
 
         int total = referencePoints.size();
@@ -127,9 +127,9 @@ public class Filter {
             int index = 0;
             double fmax = -Double.MAX_VALUE;
             for (int i = 0; i < total; i++) {
-                if (!selected[i] && referencePoints.get(i).getObjective(k) > fmax) {
+                if (!selected[i] && referencePoints.get(i).objectives()[k] > fmax) {
                     index = i;
-                    fmax = referencePoints.get(i).getObjective(k);
+                    fmax = referencePoints.get(i).objectives()[k];
                 }
             }
 

@@ -24,9 +24,9 @@ public class IMOP8 extends IMOP5 {
         double y2 = y(solution, 1, a2);
         double g = g(solution);
 
-        solution.setObjective(0, y1);
-        solution.setObjective(1, y2);
-        solution.setObjective(2, (1 + g) * (3 - y1 / (1 + g) * (1 + Math.sin(19 * Math.PI * y1)) - y2 / (1 + g) * (1 + Math.sin(19 * Math.PI * y2))));
+        solution.objectives()[0] = y1;
+        solution.objectives()[1] = y2;
+        solution.objectives()[2] = (1 + g) * (3 - y1 / (1 + g) * (1 + Math.sin(19 * Math.PI * y1)) - y2 / (1 + g) * (1 + Math.sin(19 * Math.PI * y2)));
 
         return solution;
     }

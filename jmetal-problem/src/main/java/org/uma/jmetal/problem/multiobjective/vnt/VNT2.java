@@ -31,11 +31,11 @@ public class VNT2 extends AbstractDoubleProblem {
 
     @Override
     public DoubleSolution evaluate(DoubleSolution solution) {
-        List<Double> x = solution.getVariables();
+        List<Double> x = solution.variables();
 
-        solution.setObjective(0, (x.get(0) - 2) * (x.get(0) - 2) / 2 + (x.get(1) + 1) * (x.get(1) + 1) / 13 + 3);
-        solution.setObjective(1, (x.get(0) + x.get(1) - 3) * (x.get(0) + x.get(1) - 3) / 36 + (-x.get(0) + x.get(1) + 2) * (-x.get(0) + x.get(1) + 2) / 8 - 17);
-        solution.setObjective(2, (x.get(0) + 2 * x.get(1) - 1) * (x.get(0) + 2 * x.get(1) - 1) / 175 + (2 * x.get(1) - x.get(0)) * (2 * x.get(1) - x.get(0)) / 17 - 13);
+        solution.objectives()[0] = (x.get(0) - 2) * (x.get(0) - 2) / 2 + (x.get(1) + 1) * (x.get(1) + 1) / 13 + 3;
+        solution.objectives()[1] = (x.get(0) + x.get(1) - 3) * (x.get(0) + x.get(1) - 3) / 36 + (-x.get(0) + x.get(1) + 2) * (-x.get(0) + x.get(1) + 2) / 8 - 17;
+        solution.objectives()[2] = (x.get(0) + 2 * x.get(1) - 1) * (x.get(0) + 2 * x.get(1) - 1) / 175 + (2 * x.get(1) - x.get(0)) * (2 * x.get(1) - x.get(0)) / 17 - 13;
 
         return solution;
     }

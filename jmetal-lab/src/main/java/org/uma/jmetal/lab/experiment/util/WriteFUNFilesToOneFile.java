@@ -4,9 +4,9 @@ import org.uma.jmetal.lab.experiment.Experiment;
 import org.uma.jmetal.solution.doublesolution.DoubleSolution;
 import org.uma.jmetal.util.JMetalLogger;
 import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
-import org.uma.jmetal.util.front.Front;
-import org.uma.jmetal.util.front.impl.ArrayFront;
-import org.uma.jmetal.util.front.util.FrontNormalizer;
+import org.uma.jmetal.util.legacy.front.Front;
+import org.uma.jmetal.util.legacy.front.impl.ArrayFront;
+import org.uma.jmetal.util.legacy.front.util.FrontNormalizer;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

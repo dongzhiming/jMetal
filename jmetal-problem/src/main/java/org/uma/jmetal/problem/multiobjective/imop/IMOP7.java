@@ -36,9 +36,9 @@ public class IMOP7 extends IMOP5 {
 
         r = 10 * Math.max(0, r - 0.1);
 
-        solution.setObjective(0, f0 + r);
-        solution.setObjective(1, f1 + r);
-        solution.setObjective(2, f2 + r);
+        solution.objectives()[0] = f0 + r;
+        solution.objectives()[1] = f1 + r;
+        solution.objectives()[2] = f2 + r;
 
         return solution;
     }

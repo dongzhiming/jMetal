@@ -31,11 +31,11 @@ public class VNT4 extends AbstractDoubleProblem {
 
     @Override
     public DoubleSolution evaluate(DoubleSolution solution) {
-        List<Double> x = solution.getVariables();
+        List<Double> x = solution.variables();
 
-        solution.setObjective(0, (x.get(0) - 2) * (x.get(0) - 2) / 2 + (x.get(1) + 1) * (x.get(1) + 1) / 13 + 3);
-        solution.setObjective(1, (x.get(0) + x.get(1) - 3) * (x.get(0) + x.get(1) - 3) / 175 + (2 * x.get(1) - x.get(0)) * (2 * x.get(1) - x.get(0)) / 17 - 13);
-        solution.setObjective(2, (3 * x.get(0) - 2 * x.get(1) + 4) * (3 * x.get(0) - 2 * x.get(1) + 4) / 8 + (x.get(0) - x.get(1) + 1) * (x.get(0) - x.get(1) + 1) / 27 + 15);
+        solution.objectives()[0] = (x.get(0) - 2) * (x.get(0) - 2) / 2 + (x.get(1) + 1) * (x.get(1) + 1) / 13 + 3;
+        solution.objectives()[1] = (x.get(0) + x.get(1) - 3) * (x.get(0) + x.get(1) - 3) / 175 + (2 * x.get(1) - x.get(0)) * (2 * x.get(1) - x.get(0)) / 17 - 13;
+        solution.objectives()[2] = (3 * x.get(0) - 2 * x.get(1) + 4) * (3 * x.get(0) - 2 * x.get(1) + 4) / 8 + (x.get(0) - x.get(1) + 1) * (x.get(0) - x.get(1) + 1) / 27 + 15;
 
         evaluateConstraints(solution);
 
@@ -43,7 +43,7 @@ public class VNT4 extends AbstractDoubleProblem {
     }
 
     private void evaluateConstraints(DoubleSolution solution) {
-        List<Double> x = solution.getVariables();
+        List<Double> x = solution.variables();
 
         double[] constraint = new double[this.getNumberOfConstraints()];
 
@@ -52,7 +52,7 @@ public class VNT4 extends AbstractDoubleProblem {
         constraint[2] = -x.get(0) + 2 + x.get(1);
 
         for (int i = 0; i < getNumberOfConstraints(); i++) {
-            solution.setConstraint(i, constraint[i]);
+            solution.constraints()[i] = constraint[i];
         }
     }
 }
